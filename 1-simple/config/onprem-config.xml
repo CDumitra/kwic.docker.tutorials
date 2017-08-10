@@ -2,7 +2,7 @@
 <gateway-config xmlns="http://xmlns.kaazing.org/2016/06/gateway">
 
 
-  <service>
+  <!-- <service>
     <name>proxy service A</name>
 
     <accept>pipe://serviceA</accept>
@@ -31,37 +31,42 @@
       <ws.inactivity.timeout>55 seconds</ws.inactivity.timeout>
     </connect-options>
   </service>
+-->
 
+  <properties>
+    <property>
+      <name>public.host</name>
+      <value>example.com</value>
+    </property>
 
-  <service>
-    <name>proxy service C</name>
-
-    <accept>pipe://serviceC</accept>
-    <connect>tcp://server-c:7771</connect>
-
-    <type>proxy</type>
-
-    <accept-options>
-      <pipe.transport>socks://example.com</pipe.transport>
-      <socks.mode>reverse</socks.mode>
-      <socks.transport>wsn://example.com/kwic</socks.transport>
-      <ws.inactivity.timeout>55 seconds</ws.inactivity.timeout>
-    </accept-options>
-  </service>
-
+    <property>
+      <name>public.secure.port</name>
+      <value>8080</value>
+    </property>
+  </properties>
 
   <service>
     <name>proxy service D</name>
-
     <accept>tcp://@eth0:8881</accept>
-    <connect>wsn://example.com:80/serviceD</connect>
-
+    <connect>ws://nginx:8080/tcpproxy</connect>
     <type>proxy</type>
-
     <connect-options>
-      <ws.inactivity.timeout>55 seconds</ws.inactivity.timeout>
+      <ws.inactivity.timeout>10000 seconds</ws.inactivity.timeout>
     </connect-options>
   </service>
 
+<!-- 
+  <service>
+    <name>proxy service C</name>
+    <accept>pipe://serviceC</accept>
+    <connect>tcp://server-c:7772</connect>
+    <type>proxy</type>
+    <accept-options>
+      <pipe.transport>socks://example.com</pipe.transport>
+      <socks.mode>reverse</socks.mode>
+      <socks.transport>ws://nginx:8081/tcpreverseproxy/</socks.transport>
+      <ws.inactivity.timeout>55 seconds</ws.inactivity.timeout>
+    </accept-options>
+  </service> -->
 
 </gateway-config>
