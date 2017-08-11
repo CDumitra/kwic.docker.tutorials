@@ -10,7 +10,8 @@ services:
     ports:
       - "5551:5551"
       - "7771:7771"
-      # - "7772:7772"
+      - "7772:7772"
+      - "8882:8882"
     depends_on:
         - "nginx"
     networks:
@@ -24,40 +25,22 @@ services:
     ports:
       - "6661:6661"
       - "8881:8881"
-      # - "8882:8882"
+      #- "8882:8882"
     depends_on:
       - "nginx"
     networks:
       kwic-net:
 
-  # server-a:
-  #   image: kaazing/enterprise-gateway:5.7.0
-  #   environment:
-  #     GATEWAY_OPTS: "-Dservice-hostname=server-a -Dservice-port=5551"
-  #   volumes:
-  #     - ./config/echo-server-config.xml:/kaazing-gateway/conf/gateway-config.xml:ro
-  #   networks:
-  #     kwic-net:
-
-  # server-b:
-  #   image: kaazing/enterprise-gateway:5.7.0
-  #   environment:
-  #     GATEWAY_OPTS: "-Dservice-hostname=server-b -Dservice-port=6661"
-  #   volumes:
-  #     - ./config/echo-server-config.xml:/kaazing-gateway/conf/gateway-config.xml:ro
-  #   networks:
-  #     kwic-net:
-
-  # server-c:
-  #    image: kaazing/enterprise-gateway:5.7.0
-  #    environment:
-  #      GATEWAY_OPTS: "-Dservice-hostname=server-c -Dservice-port=4443"
-  #    volumes:
-  #      - ./config/echo-server-config.xml:/kaazing-gateway/conf/gateway-config.xml:ro
-  #    ports:
-  #     - "4443:4443"
-  #    networks:
-  #      kwic-net:
+  server-c:
+      image: kaazing/enterprise-gateway:5.7.0
+      environment:
+        GATEWAY_OPTS: "-Dservice-hostname=server-c -Dservice-port=4443"
+      volumes:
+        - ./config/echo-server-config.xml:/kaazing-gateway/conf/gateway-config.xml:ro
+      ports:
+       - "4443:4443"
+      networks:
+        kwic-net:
 
   server-d:
      image: kaazing/enterprise-gateway:5.7.0
@@ -74,14 +57,6 @@ services:
   nginx:
     build: nginx
     container_name: 'nginx'
-    #hostname: nginx
-    # links:
-    #   - onprem
-    #   - cloud
-    # ports: 
-    #   - "8080:8080"
-    #   - "8081:8081"
-    #   # - "8082:8082"
     networks:
       kwic-net:
 
